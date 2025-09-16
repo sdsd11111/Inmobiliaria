@@ -19,7 +19,14 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('tailwindcss-animate'),
+  ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
 }
 
 export default config;
