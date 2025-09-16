@@ -1,14 +1,9 @@
-const config = {
+module.exports = {
   plugins: {
     'postcss-import': {},
-    'tailwindcss/nesting': {},
+    'tailwindcss/nesting': 'postcss-nesting',
     'tailwindcss': {},
-    'autoprefixer': {}
+    'autoprefixer': {},
+    ...(process.env.NODE_ENV === 'production' ? { 'cssnano': {} } : {})
   }
 };
-
-if (process.env.NODE_ENV === 'production') {
-  config.plugins['cssnano'] = {};
-}
-
-module.exports = config;
