@@ -23,5 +23,14 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('tailwindcss-animate'),
   ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  experimental: {
+    optimizeUniversalDefaults: true,
+  },
+  corePlugins: {
+    preflight: true,
+  },
 }
 
