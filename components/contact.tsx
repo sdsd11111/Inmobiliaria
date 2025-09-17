@@ -1,16 +1,23 @@
 "use client"
 
-import type React from "react"
-
+import React, { useState, FormEvent, ChangeEvent } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Phone, Mail, Instagram, Facebook, User, AtSign, MapPin, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useState } from "react"
+
+interface FormData {
+  nombre: string;
+  apellido: string;
+  correo: string;
+  telefono: string;
+  producto: string;
+  dormitorios: string;
+}
 
 export function Contact() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     nombre: "",
     apellido: "",
     correo: "",
@@ -19,14 +26,14 @@ export function Contact() {
     dormitorios: "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log("Form submitted:", formData)
     // Here you would handle form submission
   }
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    setFormData((prev: FormData) => ({ ...prev, [field]: value }))
   }
 
   return (
@@ -139,7 +146,9 @@ export function Contact() {
                       <Input
                         placeholder="Tu nombre"
                         value={formData.nombre}
-                        onChange={(e) => handleInputChange("nombre", e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                          handleInputChange("nombre", e.target.value)
+                        }
                         className="pl-10"
                         required
                       />
@@ -153,7 +162,9 @@ export function Contact() {
                       <Input
                         placeholder="Tu apellido"
                         value={formData.apellido}
-                        onChange={(e) => handleInputChange("apellido", e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                          handleInputChange("apellido", e.target.value)
+                        }
                         className="pl-10"
                         required
                       />
@@ -169,7 +180,9 @@ export function Contact() {
                       type="email"
                       placeholder="tu@email.com"
                       value={formData.correo}
-                      onChange={(e) => handleInputChange("correo", e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                        handleInputChange("correo", e.target.value)
+                      }
                       className="pl-10"
                       required
                     />
@@ -184,7 +197,9 @@ export function Contact() {
                       type="tel"
                       placeholder="0999999999"
                       value={formData.telefono}
-                      onChange={(e) => handleInputChange("telefono", e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                        handleInputChange("telefono", e.target.value)
+                      }
                       className="pl-10"
                       required
                     />
@@ -193,15 +208,18 @@ export function Contact() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Producto de Interés</label>
-                  <Select value={formData.producto} onValueChange={(value) => handleInputChange("producto", value)}>
+                  <Select 
+                    value={formData.producto} 
+                    onValueChange={(value: string) => handleInputChange("producto", value)}
+                  >
                     <SelectTrigger>
-                      <SelectValue placeholder="Selecciona un tipo de propiedad" />
+                      <SelectValue placeholder="Selecciona un producto" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="departamento">Departamento</SelectItem>
-                      <SelectItem value="casa">Casa</SelectItem>
-                      <SelectItem value="terreno">Terreno</SelectItem>
-                      <SelectItem value="oficina">Oficina</SelectItem>
+                      <SelectItem value="compra">Compra de Propiedad</SelectItem>
+                      <SelectItem value="venta">Venta de Propiedad</SelectItem>
+                      <SelectItem value="alquiler">Alquiler</SelectItem>
+                      <SelectItem value="tasacion">Tasación</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -210,23 +228,23 @@ export function Contact() {
                   <label className="text-sm font-medium">Número de Dormitorios</label>
                   <Select
                     value={formData.dormitorios}
-                    onValueChange={(value) => handleInputChange("dormitorios", value)}
+                    onValueChange={(value: string) => handleInputChange("dormitorios", value)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Selecciona número de dormitorios" />
+                      <SelectValue placeholder="Selecciona el número de dormitorios" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="1">1 dormitorio</SelectItem>
-                      <SelectItem value="2">2 dormitorios</SelectItem>
-                      <SelectItem value="3">3 dormitorios</SelectItem>
-                      <SelectItem value="4+">4+ dormitorios</SelectItem>
+                      <SelectItem value="1">1 Dormitorio</SelectItem>
+                      <SelectItem value="2">2 Dormitorios</SelectItem>
+                      <SelectItem value="3">3 Dormitorios</SelectItem>
+                      <SelectItem value="4+">4 o más Dormitorios</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                <Button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 text-lg"
+                <Button 
+                  type="submit" 
+                  className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 text-lg mt-6"
                 >
                   ENVIAR
                 </Button>
